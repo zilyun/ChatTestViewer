@@ -1,8 +1,9 @@
 package com.example.chattestviewer.chat.controller;
 
-import com.example.chattestviewer.chat.domain.Room;
+import com.example.chattestviewer.chat.domain.ChatRoom;
 import com.example.chattestviewer.chat.service.ChattingService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,13 +14,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Controller
 public class ChatController {
 	
 	private final ChattingService chattingService;
 
-	List<Room> roomList;
+	List<ChatRoom> chatRoomList;
 	static int roomNumber = 0;
 
 	@RequestMapping("/chat")
@@ -37,51 +39,55 @@ public class ChatController {
 	}
 
 	@RequestMapping("/createRoom")
-	public @ResponseBody List<Room> createRoom(@RequestParam HashMap<Object, Object> params) throws Exception {
+	public @ResponseBody List<ChatRoom> createRoom(@RequestParam HashMap<Object, Object> params) throws Exception {
 		String roomName = (String) params.get("roomName");
 		String sessionId = (String) params.get("sessionId");
-		String description = (String) params.get("description");
+		//String description = (String) params.get("description");
 		
-		Room room_empty = new Room();
-		roomList=chattingService.searchRoom(room_empty);
+		ChatRoom chatRoom_empty = new ChatRoom();
+		chatRoomList =chattingService.searchRoom(chatRoom_empty);
 		
 		if (roomName != null && !roomName.trim().equals("")) {
-			Room room = new Room();
-			room.setChat_room_num(++roomNumber);
-			room.setRoom_name(roomName);
-			room.setSessionId(sessionId);
-			room.setDescription(description);
-			chattingService.createChatRoom(room);
-			roomList=chattingService.searchRoom(room);
+			ChatRoom chatRoom = new ChatRoom();
+			chatRoom.setChat_room_num(++roomNumber);
+			chatRoom.setRoom_name(roomName);
+			chatRoom.setChat_session_id(sessionId);
+			//room.setDescription(description);
+			chattingService.createChatRoom(chatRoom);
+			chatRoomList =chattingService.searchRoom(chatRoom);
 		}
 		
-		return roomList;
+		return chatRoomList;
 	}
 
 	@RequestMapping("/getRoom")
-	public @ResponseBody List<Room> getRoom(@RequestParam HashMap<Object, Object> params) throws Exception {
-		Room room_empty = new Room();
-		roomList=chattingService.searchRoom(room_empty);
-		return roomList;
+	public @ResponseBody List<ChatRoom> getRoom(@RequestParam HashMap<Object, Object> params) throws Exception {
+		log.info("관리자용 채팅방 전체 구하기");
+		ChatRoom chatRoom_empty = new ChatRoom();
+		chatRoomList =chattingService.searchRoom(chatRoom_empty);
+		return chatRoomList;
 	}
 	
 	@RequestMapping("/getRoomUser")
-	public @ResponseBody List<Room> getRoomUser(@RequestParam HashMap<String, String> params) throws Exception {
+	public @ResponseBody List<ChatRoom> getRoomUser(@RequestParam HashMap<String, String> params) throws Exception {
+		log.info("아이디별 채팅방 구하기");
 
 		String sessionId = params.get("ID");
 
-		Room room_user = new Room();
-		room_user.setSessionId(sessionId);
-		roomList=chattingService.searchRoomUser(room_user);
-		return roomList;
+		ChatRoom chatRoom_user = new ChatRoom();
+		chatRoom_user.setChat_session_id(sessionId);
+		chatRoomList =chattingService.searchRoomUser(chatRoom_user);
+		return chatRoomList;
 	}
 
 	@RequestMapping("/moveChating")
 	public ModelAndView chating(@RequestParam HashMap<Object, Object> params) {
+		log.info("채팅방 이동");
+		
 		ModelAndView mv = new ModelAndView();
 		int roomNumber = Integer.parseInt((String) params.get("roomNumber"));
 
-		List<Room> new_list = roomList.stream().filter(o -> o.getRoomNumber() == roomNumber)
+		List<ChatRoom> new_list = chatRoomList.stream().filter(o -> o.getChat_room_num() == roomNumber)
 				.collect(Collectors.toList());
 		if (new_list != null && new_list.size() > 0) {
 			mv.addObject("roomName", params.get("roomName"));

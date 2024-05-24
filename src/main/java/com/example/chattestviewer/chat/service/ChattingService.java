@@ -2,8 +2,8 @@ package com.example.chattestviewer.chat.service;
 
 
 import com.example.chattestviewer.chat.domain.ChatMessage;
+import com.example.chattestviewer.chat.domain.ChatRoom;
 import com.example.chattestviewer.chat.mybatis.ChatMapper;
-import com.example.chattestviewer.chat.domain.Room;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,28 +15,27 @@ public class ChattingService {
 
     private final ChatMapper dao;
 
-    List<Room> chatRoomList;
+    List<ChatRoom> chatChatRoomList;
     List<ChatMessage> chatMessageList;
 
-    public int createChat(ChatMessage chatMessage) throws Exception {
-        return dao.createChat(chatMessage);
+    public int createMessage(ChatMessage chatMessage) throws Exception {
+        return dao.createMessage(chatMessage);
     }
 
-    public int createChatRoom(Room room) throws Exception {
-        return dao.createChatRoom(room);
+    public int createChatRoom(ChatRoom chatRoom) throws Exception {
+        return dao.createChatRoom(chatRoom);
     }
 
-    public List<ChatMessage> searchChat(ChatMessage chatMessage) throws Exception {
-        return dao.searchChat(chatMessage);
+    public List<ChatMessage> searchMessages(ChatMessage chatMessage) throws Exception {
+        return dao.searchMessages(chatMessage);
     }
 
-    public List<Room> searchRoom(Room room) throws Exception {
-        return dao.searchRoom(room);
+    public List<ChatRoom> searchRoom(ChatRoom chatRoom) throws Exception {
+        return dao.searchRoom(chatRoom);
     }
 
-    public List<Room> searchRoomUser(Room room) throws Exception {
-        return dao.searchRoomUser(room);
-
+    public List<ChatRoom> searchRoomUser(ChatRoom chatRoom) throws Exception {
+        return dao.searchRoomUser(chatRoom);
     }
 
 }

@@ -50,17 +50,17 @@ public class SocketHandler extends TextWebSocketHandler {
         String content = (String) obj.get("msg"); // 유저의 아이디를 얻는다. 세션 대신 사용한다.
         String userName = (String) obj.get("userName"); // 유저의 아이디를 얻는다.
 
-        System.out.println(rN);
-        System.out.println(userName);
-        System.out.println(content);
+        log.info(rN);
+        log.info(userName);
+        log.info(content);
 
         // 상태를 저장하기 위해 vo에 값을 넣어주고 insert
         ChatMessage chatMessage = new ChatMessage();
         chatMessage.setChat_room_num(rN);
-        chatMessage.setNickname(userName);
+        chatMessage.setUserName(userName);
         chatMessage.setMessage_content(content);
 
-        chattingService.createChat(chatMessage);
+        chattingService.createMessage(chatMessage);
 
         HashMap<String, Object> temp = new HashMap<String, Object>();
         if (rls.size() > 0) {
@@ -116,9 +116,7 @@ public class SocketHandler extends TextWebSocketHandler {
     @SuppressWarnings("unchecked")
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-
-        System.out.println("소켓 설립");
-
+        log.info("소켓 설립");
         // 소켓 연결
         super.afterConnectionEstablished(session);
         boolean flag = false;
@@ -127,16 +125,16 @@ public class SocketHandler extends TextWebSocketHandler {
         String roomNumber = buffer.split("&")[0];
         userName = buffer.split("&")[1];
 
-        System.out.println(roomNumber + ": 방번호");
-        System.out.println(userName + ": 유저이름");
+        log.info("{} : 방번호 ", roomNumber);
+        log.info("{} : 유저이름", userName);
 
         // 방번호를 기준으로 다 받아온다.
         ChatMessage chatMessage = new ChatMessage();
         chatMessage.setChat_room_num(roomNumber);
-        System.out.println(chatMessage);
-        log.info(chatMessage.getRoomNumber());
-        chatMessageList = chattingService.searchChat(chatMessage);
-        log.println(chatMessageList + ": 입니다.");
+        log.info("{}", chatMessage);
+        log.info(chatMessage.getChat_room_num());
+        chatMessageList = chattingService.searchMessages(chatMessage);
+        log.info("{} : 입니다.", chatMessageList);
 
         int idx = rls.size(); // 방의 사이즈를 조사한다.
         if (rls.size() > 0) {
@@ -162,14 +160,13 @@ public class SocketHandler extends TextWebSocketHandler {
 
         // 포문으로 연속 메시지를 보낸다. list 크기 만큼 돌린다.
         for (int i = 0; i < chatMessageList.size(); i++) {
-
-            String content = chatMessageList.get(i).getContent();
+            String content = chatMessageList.get(i).getMessage_content();
             String userDBName = chatMessageList.get(i).getUserName();
-            System.out.println(i);
-            // 세션등록이 끝나면 발급받은 세션ID값의 메시지를 발송한다.
+            log.info("{} 번째", i);
+            // 세션등록이 끝나면 발급받은 세션 ID 값의 메시지를 발송한다.
             JSONObject obj = new JSONObject();
-            System.out.println(session.getId());
-            System.out.println(session);
+            log.info(session.getId());
+            log.info("{}", session);
             obj.put("type", "getId");
             //obj.put(session.getId(),session); // 활성화하면 새로고침 시 소켓이 종료되면서 같은 세션 값을 가지고 있던 obj들이 제거되었었음.
             obj.put("sessionId", userName); // 유저 아이디임. // 위를 활성화하면 세션과 관련된 obj들이 제거되면서 이 컬럼과 js 조건문이 만나는 조건에서 의도치 않은 결과가 나왔었음.
@@ -181,9 +178,7 @@ public class SocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        System.out.println("소켓종료");
-
-
+        log.info("소켓종료");
         // 소켓 종료
         if (rls.size() > 0) { // 소켓이 종료되면 해당 세션값들을 찾아서 지운다.
             for (int i = 0; i < rls.size(); i++) {

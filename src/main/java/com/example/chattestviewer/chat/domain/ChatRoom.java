@@ -9,7 +9,7 @@ import java.util.Date;
 @ToString
 @Setter
 @Getter
-public class Room {
+public class ChatRoom {
 //	int roomNumber;
 //	String roomName;
 //	String sessionId;
@@ -17,7 +17,7 @@ public class Room {
 
 	private long chat_room_num;
 	private String chat_session_id;
-	private String name;
-	private Date date;
+	private String room_name;
+	private Date room_create_date;
 
 }

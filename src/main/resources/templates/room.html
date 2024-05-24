@@ -6,7 +6,7 @@
     <title>Room</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link th:href="@{/css/room.css}" rel="stylesheet"/>
+    <link th:href="@{/css/chat.css}" rel="stylesheet"/>
     <link rel="stylesheet" th:href="@{/css/animation.css}">
     <link rel="stylesheet" th:href="@{/css/fontello.css}">
     <link rel="stylesheet" th:href="@{/css/fontello-embedded.css}">
@@ -588,17 +588,18 @@
 
     function createChatingRoom(res) {
         if (res != null) {
-            var tag = "<main class='row title'><ul><li class='num'>순서</li><li class='room'>방 이름</li><li class='sessionId'>작성자</li><li class='go'>참가</li></ul></main>";
+            var tag = "<main class='row title'><ul><li class='num'>순서</li><li class='chatRoom'>방 이름</li><li class='sessionId'>작성자</li><li class='go'>참가</li></ul></main>";
             res.forEach(function (d, idx) {
-                    var rn = d.roomName.trim();
-                    var roomNumber = d.roomNumber;
-                    var description = d.description;
-                    var sessionId = d.sessionId;
+                    // var rn = d.chat_name.trim();
+                    var rn = d.room_name;
+                    var roomNumber = d.chat_room_num;
+                    //var description = d.description;
+                    var sessionId = d.chat_session_id;
                     tag += "<div class='row nfl row-fadeIn-wrapper'>"
                         + "<ul><li class='num'>"
                         + (idx + 1)
                         + "</li>"
-                        + "<li class='room'>"
+                        + "<li class='chatRoom'>"
                         + rn
                         + "</li>"
                         + "<li class='sessionId'>"
@@ -609,7 +610,8 @@
                         + sessionId + "\")'>입장</button></li>"
                         + "</ul>"
                         + "<ul class='more-content'><li class='description'>"
-                        + description
+                        // + description
+                        + "마지막 채팅 내용 보여줄 예정"
                         + "</li></ul></div>";
                 });
 

@@ -32,8 +32,8 @@ public class ChatMessage {
 	private String message_content; // 메시지 내용
 	private int readCount; // 안 읽은 사람 수
 	private Date send_time; // 메시지 보낸 시간
-	private String chat_room_num; // 채팅방 번호
 	private long sender_num; // 보낸 회원의 번호
-	private String nickname; // 임시 닉네임 컬럼
+	private String chat_room_num; // 채팅방 번호
+	private String userName; // 임시 닉네임 컬럼
 
 }

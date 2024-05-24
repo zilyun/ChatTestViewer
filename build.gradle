@@ -28,6 +28,7 @@ dependencies {
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.0.31'
     implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 
     compileOnly 'org.projectlombok:lombok'
