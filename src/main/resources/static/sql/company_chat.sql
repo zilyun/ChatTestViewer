@@ -10,7 +10,7 @@ CREATE TABLE member
     num      BIGINT,
     id       VARCHAR(30),
     password VARCHAR(60), -- 암호화를 하면 password가 60자 필요합니다.
-    nickname VARCHAR(15)
+    userName VARCHAR(60)
 #    auth   		varchar(50) not null, -- 회원의 권한을 저장하는 곳으로 기본값은 'ROLE_MEMBER' 입니다.
 );
 
@@ -22,7 +22,7 @@ CREATE TABLE com_chat_room
 (
     chat_room_num    BIGINT                             NOT NULL AUTO_INCREMENT PRIMARY KEY,
     chat_session_id  VARCHAR(30)                        NOT NULL,
-    room_name             VARCHAR(50)                        NOT NULL,
+    room_name             VARCHAR(50)                   NOT NULL,
     room_create_date DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
@@ -38,6 +38,7 @@ CREATE TABLE com_message
     read_count      INT(11)                            NOT NULL,
     send_time       DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     sender_num      BIGINT                             NOT NULL,
+    userName        VARCHAR(60)                        NOT NULL,
     chat_room_num   BIGINT                             NOT NULL
 );
 

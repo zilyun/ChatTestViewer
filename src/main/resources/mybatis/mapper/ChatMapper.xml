@@ -8,8 +8,10 @@
 <!--        <selectKey resultType="int" order="BEFORE" keyProperty="message_num">-->
 <!--            SELECT IFNULL(MAX(message_num),0)+1 FROM com_message-->
 <!--        </selectKey>-->
-        INSERT INTO com_message
-        VALUES(NULL, #{chat_room_num} ,#{userName}, #{message_content}, #{read_count}, now())
+        INSERT INTO
+            com_message(message_num, chat_room_num, sender_num, userName,
+                        message_content, read_count, send_time)
+        VALUES(NULL, #{chat_room_num}, 1, #{userName}, #{message_content}, #{read_count}, now())
     </insert>
 
     <!-- 채팅방의 채팅 기록 가져오기, 유저 기준으로도 추가 예정 -->

@@ -30,7 +30,7 @@ public class ChatMessage {
 	private MessageType type; // 메시지 타입
 	private long message_num; // 메시지 번호
 	private String message_content; // 메시지 내용
-	private int readCount; // 안 읽은 사람 수
+	private int read_count; // 안 읽은 사람 수
 	private Date send_time; // 메시지 보낸 시간
 	private long sender_num; // 보낸 회원의 번호
 	private String chat_room_num; // 채팅방 번호

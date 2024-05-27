@@ -59,6 +59,7 @@ public class SocketHandler extends TextWebSocketHandler {
         chatMessage.setChat_room_num(rN);
         chatMessage.setUserName(userName);
         chatMessage.setMessage_content(content);
+        chatMessage.setRead_count(1);
 
         chattingService.createMessage(chatMessage);
 
